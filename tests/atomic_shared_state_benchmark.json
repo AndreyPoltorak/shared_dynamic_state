@@ -1,0 +1,111 @@
+{
+  "context": {
+    "date": "2026-04-04T13:21:26+03:00",
+    "host_name": "DESKTOP-OI2C01G",
+    "executable": "atomic_shared_state_benchmark.exe",
+    "num_cpus": 12,
+    "mhz_per_cpu": 2994,
+    "caches": [
+      {
+        "type": "Data",
+        "level": 1,
+        "size": 32768,
+        "num_sharing": 2
+      },
+      {
+        "type": "Instruction",
+        "level": 1,
+        "size": 32768,
+        "num_sharing": 2
+      },
+      {
+        "type": "Unified",
+        "level": 2,
+        "size": 524288,
+        "num_sharing": 2
+      },
+      {
+        "type": "Unified",
+        "level": 3,
+        "size": 4194304,
+        "num_sharing": 6
+      }
+    ],
+    "load_avg": [],
+    "library_version": "v1.9.1",
+    "library_build_type": "release",
+    "json_schema_version": 1
+  },
+  "benchmarks": [
+    {
+      "name": "BM_AtomicSharedRead/real_time/threads:1",
+      "family_index": 0,
+      "per_family_instance_index": 0,
+      "run_name": "BM_AtomicSharedRead/real_time/threads:1",
+      "run_type": "iteration",
+      "repetitions": 1,
+      "repetition_index": 0,
+      "threads": 1,
+      "iterations": 252504,
+      "real_time": 2.8778569853924187e+03,
+      "cpu_time": 2.8464895605614170e+03,
+      "time_unit": "ns"
+    },
+    {
+      "name": "BM_AtomicSharedRead/real_time/threads:2",
+      "family_index": 1,
+      "per_family_instance_index": 0,
+      "run_name": "BM_AtomicSharedRead/real_time/threads:2",
+      "run_type": "iteration",
+      "repetitions": 1,
+      "repetition_index": 0,
+      "threads": 2,
+      "iterations": 229162,
+      "real_time": 2.9094653579389023e+03,
+      "cpu_time": 2.8636946788734608e+03,
+      "time_unit": "ns"
+    },
+    {
+      "name": "BM_AtomicSharedRead/real_time/threads:4",
+      "family_index": 2,
+      "per_family_instance_index": 0,
+      "run_name": "BM_AtomicSharedRead/real_time/threads:4",
+      "run_type": "iteration",
+      "repetitions": 1,
+      "repetition_index": 0,
+      "threads": 4,
+      "iterations": 192208,
+      "real_time": 3.5935491800645000e+03,
+      "cpu_time": 3.7394385249313245e+03,
+      "time_unit": "ns"
+    },
+    {
+      "name": "BM_AtomicSharedRead/real_time/threads:8",
+      "family_index": 3,
+      "per_family_instance_index": 0,
+      "run_name": "BM_AtomicSharedRead/real_time/threads:8",
+      "run_type": "iteration",
+      "repetitions": 1,
+      "repetition_index": 0,
+      "threads": 8,
+      "iterations": 160648,
+      "real_time": 5.3233261517024621e+03,
+      "cpu_time": 4.9603792141825606e+03,
+      "time_unit": "ns"
+    },
+    {
+      "name": "BM_AtomicSharedRead/real_time/threads:16",
+      "family_index": 4,
+      "per_family_instance_index": 0,
+      "run_name": "BM_AtomicSharedRead/real_time/threads:16",
+      "run_type": "iteration",
+      "repetitions": 1,
+      "repetition_index": 0,
+      "threads": 16,
+      "iterations": 97264,
+      "real_time": 7.0270572802495271e+03,
+      "cpu_time": 6.4258101661457476e+03,
+      "time_unit": "ns"
+    }
+  ]
+}

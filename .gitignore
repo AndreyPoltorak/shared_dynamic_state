@@ -1,0 +1,22 @@
+# Сборка
+build/
+bin/
+obj/
+
+# Временные файлы тестов и сериализации
+*.out
+*.in
+test_*.out
+test_*.in
+test.cpp
+
+# Документация
+html/
+latex/
+Doxyfile.bak
+
+# Настройки IDE
+.vscode/
+.vs/
+*.user
+*.suo
