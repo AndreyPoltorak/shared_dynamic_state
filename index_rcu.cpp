@@ -1,4 +1,5 @@
 #include <atomic>
+#include <iostream>
 #include <cstddef>
 #include <memory>
 #include <mutex>
@@ -25,6 +26,8 @@ struct State {
 static const int size_vector = 16;
 static std::shared_ptr<State> g_slots[size_vector];
 static std::atomic<int> g_index{-1};
+static std::atomic<uint64_t> g_count{0};
+
 
 
 void writer_thread_func(size_t state_size, std::atomic<bool>& stop_flag) {
@@ -64,6 +67,7 @@ static void BM_IndexRCURead(benchmark::State& state) {
     
     static std::thread writer_thread;
     static std::atomic<bool> stop_writer{false};
+    std::atomic<uint64_t> count{0};
 
     if (state.thread_index() == 0) {
         g_index.store(-1, std::memory_order_relaxed);
@@ -90,10 +94,12 @@ static void BM_IndexRCURead(benchmark::State& state) {
         for (int i = 0; i < reads_per_iter; ++i) {
             sum += g_slots[curr_index]->data[index_dist(local_rng)];
         }
+        count++;
+        g_count++;
         benchmark::DoNotOptimize(sum);
     }
 
-    state.SetItemsProcessed(state.iterations() * reads_per_iter);
+    
 
     if (state.thread_index() == 0) {
         stop_writer.store(true);
@@ -101,12 +107,25 @@ static void BM_IndexRCURead(benchmark::State& state) {
             writer_thread.join();
         }
     }
+    state.counters["allCount"] = count.load();
+    state.SetItemsProcessed(state.iterations() * reads_per_iter);
 }
 
-BENCHMARK(BM_IndexRCURead)->Threads(1)->UseRealTime();
-BENCHMARK(BM_IndexRCURead)->Threads(2)->UseRealTime();
-BENCHMARK(BM_IndexRCURead)->Threads(4)->UseRealTime();
-BENCHMARK(BM_IndexRCURead)->Threads(8)->UseRealTime();
-BENCHMARK(BM_IndexRCURead)->Threads(16)->UseRealTime();
+BENCHMARK(BM_IndexRCURead)->Threads(1)->Iterations(1000000/1)->UseRealTime();
+BENCHMARK(BM_IndexRCURead)->Threads(2)->Iterations(1000000/2)->UseRealTime();
+BENCHMARK(BM_IndexRCURead)->Threads(4)->Iterations(1000000/4)->UseRealTime();
+BENCHMARK(BM_IndexRCURead)->Threads(8)->Iterations(1000000/8)->UseRealTime();
+BENCHMARK(BM_IndexRCURead)->Threads(16)->Iterations(1000000/16)->UseRealTime();
 
-BENCHMARK_MAIN();
+//BENCHMARK_MAIN();
+int main(int argc, char** argv) {
+    ::benchmark::Initialize(&argc, argv);
+
+    ::benchmark::RunSpecifiedBenchmarks();
+
+    ::benchmark::Shutdown();
+
+    std::cout<< "g_count = " << g_count.load() << std::endl;
+    
+    return 0;
+}

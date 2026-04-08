@@ -53,6 +53,7 @@ set(BENCHMARK_TARGETS
     "cppurcu_git_state_benchmark" "cppurcu_git.cpp"
     "epoch_rcu_state_benchmark" "epoch_rcu.cpp"
     "test_state_benchmark" "test.cpp"
+    "buffer_hazard_state_benchmark" "buffer_hazard.cpp"
 )
 
 

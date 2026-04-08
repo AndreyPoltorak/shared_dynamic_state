@@ -102,12 +102,13 @@ static void BM_SharedMutexRead(benchmark::State& state) {
             g_state.reset();
         }
     }
+    state.SetItemsProcessed(state.iterations() * reads_per_iter);
 }
 
-BENCHMARK(BM_SharedMutexRead)->Threads(1)->UseRealTime();
-BENCHMARK(BM_SharedMutexRead)->Threads(2)->UseRealTime();
-BENCHMARK(BM_SharedMutexRead)->Threads(4)->UseRealTime();
-BENCHMARK(BM_SharedMutexRead)->Threads(8)->UseRealTime();
-BENCHMARK(BM_SharedMutexRead)->Threads(16)->UseRealTime();
+BENCHMARK(BM_SharedMutexRead)->Threads(1)->Iterations(10000000/1)->UseRealTime();;
+BENCHMARK(BM_SharedMutexRead)->Threads(2)->Iterations(10000000/2)->UseRealTime();
+BENCHMARK(BM_SharedMutexRead)->Threads(4)->Iterations(10000000/4)->UseRealTime();
+BENCHMARK(BM_SharedMutexRead)->Threads(8)->Iterations(10000000/8)->UseRealTime();
+BENCHMARK(BM_SharedMutexRead)->Threads(16)->Iterations(10000000/16)->UseRealTime();
 
 BENCHMARK_MAIN();

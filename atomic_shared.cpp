@@ -6,6 +6,7 @@
 #include <shared_mutex>
 #include <thread>
 #include <vector>
+#include <iostream>
 #include <benchmark/benchmark.h>
 
 struct State {
@@ -24,10 +25,11 @@ struct State {
 
 static std::atomic<std::shared_ptr<State>> g_state;
 
+
+
 void writer_thread_func(size_t state_size, std::atomic<bool>& stop_flag) {
     std::mt19937 rng(std::random_device{}());
     std::uniform_int_distribution<size_t> dist(0, state_size - 1);
-
     while (!stop_flag.load(std::memory_order_relaxed)) {
 
         auto old_ptr = g_state.load(std::memory_order_acquire);
@@ -88,12 +90,14 @@ static void BM_AtomicSharedRead(benchmark::State& state) {
         }
         g_state.store(nullptr);
     }
+    state.SetItemsProcessed(state.iterations() * reads_per_iter);
 }
 
-BENCHMARK(BM_AtomicSharedRead)->Threads(1)->UseRealTime();
-BENCHMARK(BM_AtomicSharedRead)->Threads(2)->UseRealTime();
-BENCHMARK(BM_AtomicSharedRead)->Threads(4)->UseRealTime();
-BENCHMARK(BM_AtomicSharedRead)->Threads(8)->UseRealTime();
-BENCHMARK(BM_AtomicSharedRead)->Threads(16)->UseRealTime();
+
+BENCHMARK(BM_AtomicSharedRead)->Threads(1)->Iterations(10000000/1)->UseRealTime();;
+BENCHMARK(BM_AtomicSharedRead)->Threads(2)->Iterations(10000000/2)->UseRealTime();
+BENCHMARK(BM_AtomicSharedRead)->Threads(4)->Iterations(10000000/4)->UseRealTime();
+BENCHMARK(BM_AtomicSharedRead)->Threads(8)->Iterations(10000000/8)->UseRealTime();
+BENCHMARK(BM_AtomicSharedRead)->Threads(16)->Iterations(10000000/16)->UseRealTime();
 
 BENCHMARK_MAIN();
